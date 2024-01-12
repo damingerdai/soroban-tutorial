@@ -1,21 +1,12 @@
-[package]
-name = "hello-soroban"
-version = "0.1.0"
-edition = "2021"
+[workspace]
+resolver = "2"
+members = [
+  "contracts/*",
+]
 
-[lib]
-crate-type = ["cdylib"]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
+[workspace.dependencies]
 soroban-sdk = "20.1.0"
-
-[dev-dependencies]
-soroban-sdk = { version = "20.1.0", features = ["testutils"]}
-
-[features]
-testutils = ["soroban-sdk/testutils"]
 
 [profile.release]
 opt-level = "z"
