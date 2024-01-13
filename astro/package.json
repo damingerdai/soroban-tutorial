@@ -1,0 +1,17 @@
+{
+  "name": "soroban-tutorial-front",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "postinstall": "soroban contract bindings typescript --network testnet --contract-id $(cat ../.soroban/hello-id) --output-dir node_modules/hello-soroban-client"
+  },
+  "dependencies": {
+    "astro": "^4.1.2"
+  }
+}
+
