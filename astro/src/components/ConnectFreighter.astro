@@ -1,0 +1,60 @@
+<div id="freighter-wrap" class="wrap" aria-live="polite">
+  <div class="ellipsis">
+    <button data-connect aria-controls="freighter-wrap">Connect</button>
+  </div>
+</div>
+<style>
+  .wrap {
+    text-align: center;
+  }
+
+  .ellipsis {
+    line-heigth: 2.7rem;
+    margin: auto;
+    max-width: 12rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: cetner;
+    white-space: nowrap; 
+  }
+</style>
+
+<script>
+  import { isAllowed, setAllowed, getUserInfo } from '@stellar/freighter-api';
+
+  const wrap = document.querySelector("#freighter-wrap");
+  const ellipsis = document.querySelector("#freighter-wrap .ellipsis");
+  const button = document.querySelector("[data-connect]");
+
+  async function getPk() {
+    const user = await getUserInfo();
+    console.log(user);
+
+    return user.publicKey;
+  }
+  
+  async function setLoggedIn() {
+    const publicKey = await getPk();
+    ellipsis.innerHTML = `Signed in as ${publicKey}`;
+    ellipsis.title = publicKey;
+  }
+  console.log("hello world");
+  const allowed = await isAllowed();
+  console.log("allowed", allowed);
+  if (allowed) {
+    if (await getPk()) {
+      setLoggedIn();        
+    } else {
+      wrap.innerHTML = "Freighter is locked.<br/> Sign in & refresh the page."; 
+    }
+  } else {
+    console.log("allowed", allowed);
+    button.addEventListener('click', async() => {
+      console.log('click');
+      button.disabled = true;
+      await setAllowed();
+      await setLoggedIn();
+      button.disabled = false;
+    });
+  }
+</script>
