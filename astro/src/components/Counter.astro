@@ -1,0 +1,32 @@
+<strong>Incrementor</strong>
+<br/>
+Current value: <stroing id="current-value" aria-live="poilte">???</stroing>
+<br/>
+<button data-increment aria-controls="current-value">Increment</button>
+
+<script>
+  import { Contract, networks } from 'incrementor-client';
+
+  const incrementor = new Contract({
+    ...networks.testnet,
+    rpcUrl: "https://soroban-testnet.stellar.org",
+  });
+
+  const button = document.querySelector("[data-increment]");
+  const currentValue = document.querySelector("#current-value");
+
+  button.addEventListener("click", async() => {
+    button.disabled = true;
+    button.classList.add("loading");
+    currentValue.innerHTML = currentValue.innterHTML + "<span class='visually-hidden'>-- updating...</span";
+
+    const tx = await incrementor.increment();
+    const { result } = await tx.signAndSend();
+    // Only use `innerHTML` with contract values you trust!
+    // Blindly using values from an untrusted contract opens your users to script injection attacks!
+    currentValue.innerHTML = result;
+
+    button.disabled = false;
+    button.classList.remove("loading");
+  });
+</script>

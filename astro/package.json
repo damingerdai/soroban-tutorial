@@ -8,7 +8,10 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "postinstall": "soroban contract bindings typescript --network testnet --contract-id $(cat ../.soroban/hello-id) --output-dir node_modules/hello-soroban-client"
+    "bindings:hello": "soroban contract bindings typescript --network testnet --contract-id $(cat ../.soroban/hello-id) --output-dir node_modules/hello-soroban-client",
+    "bindings:incrementor": "soroban contract bindings typescript --network testnet --contract-id $(cat ../.soroban/incrementor-id) --output-dir node_modules/incrementor-client",
+    "bindings": "npm run bindings:hello && npm run bindings:incrementor",
+    "postinstall": "npm run bindings"
   },
   "dependencies": {
     "@stellar/freighter-api": "^1.7.1",
